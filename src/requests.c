@@ -18,12 +18,10 @@ static int request_send_raw(REQUEST_TYPE type, const void *data, int len) {
         return FAILURE;
     }
 
-    bzero(cmdbuf, len + 2);
-    cmdbuf[0] = PAYLOAD_HEADER;
     cmdbuf[1] = type;
     memmove(cmdbuf + 2, data, len);
 
-    int ret = frame_send(cmdbuf, len + 2);
+    int ret = frame_send(FRAME_APP, cmdbuf, len + 2);
     free(cmdbuf);
     return ret;
 }
