@@ -8,7 +8,7 @@
 #include "debug.h"
 #include "mcu_proto.h"
 #include "scripts.h"
-
+#include "firmware_upgrade.h"
 enum _token_type {
     TOKEN_STRING_NEW,       /* Duplicate a new string and write its pointer to
                                *storage */
@@ -127,8 +127,8 @@ static int update_basic_info() {
         TOKEN_STRING_OVERWRITE_STORE(g_basic_info.product_name),
         TOKEN_STRING_OVERWRITE_STORE(g_basic_info.hw_version),
         TOKEN_STRING_OVERWRITE_STORE(g_basic_info.fw_version),
-	TOKEN_STRING_OVERWRITE_STORE(g_basic_info.sw_version),
-	TOKEN_STRING_OVERWRITE_STORE(g_basic_info.mac_addr_base),
+        TOKEN_STRING_OVERWRITE_STORE(g_basic_info.sw_version),
+        TOKEN_STRING_OVERWRITE_STORE(g_basic_info.mac_addr_base),
     };
     return update_storage_from_script(CFG->basic_info_script, stores,
                                       sizeof(stores) / sizeof(stores[0]));
@@ -152,10 +152,10 @@ static int update_wan_info() {
     static const struct _token_store stores[] = {
         TOKEN_UINT_STORE(g_wan_info.is_connected),
         TOKEN_STRING_OVERWRITE_STORE(g_wan_info.ip),
-	TOKEN_UINT_STORE(g_wan_info.tx_bytes_per_sec),
+        TOKEN_UINT_STORE(g_wan_info.tx_bytes_per_sec),
         TOKEN_UINT_STORE(g_wan_info.rx_bytes_per_sec),
-	TOKEN_UINT_STORE(g_wan_info.flag),
-	TOKEN_UINT_STORE(g_wan_info.mode),
+        TOKEN_UINT_STORE(g_wan_info.flag),
+        TOKEN_UINT_STORE(g_wan_info.mode),
     };
     return update_storage_from_script(CFG->wan_script, stores,
                                       sizeof(stores) / sizeof(stores[0]));
@@ -316,4 +316,5 @@ void print_all_info() {
     print_port_info(&g_port_info);
     print_weather_info(&g_weather_info);
     print_host_info(g_host_info_array, g_host_info_elements);
+    print_mcu_version();
 }
